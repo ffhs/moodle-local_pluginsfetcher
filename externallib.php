@@ -64,46 +64,20 @@ class local_pluginsfetcher_external extends external_api {
         $pluginman = core_plugin_manager::instance();
 
         if (!empty($params['type'])) {
-            // Get all plugins by type.
-            $plugininfo = $pluginman->get_plugins_of_type($type);
-
             if (!empty($params['contribonly'])) {
-                $plugininfo = $pluginman->get_plugins();
-
-                // Get additional plugins by type.
-                $contribs = array();
-                foreach ($plugininfo as $plugintype => $pluginnames) {
-                    foreach ($pluginnames as $pluginname => $pluginfo) {
-                        if ($pluginfo->type == $type && !$pluginfo->is_standard()) {
-                            $contribs[$pluginname] = $pluginfo;
-                        }
-                    }
-                }
-                $plugininfo = $contribs;
+                // Get additional plugins by type and contrib.
+                $plugininfo = self::get_plugins_by_parameters($pluginman, $type, false);
+            } else {
+                // Get all plugins by type.
+                $plugininfo = $pluginman->get_plugins_of_type($type);
             }
         } else {
-            $plugininfo = $pluginman->get_plugins();
-
             if (!empty($params['contribonly'])) {
-                // Get all additional plugins.
-                $contribs = array();
-                foreach ($plugininfo as $plugintype => $pluginnames) {
-                    foreach ($pluginnames as $pluginname => $pluginfo) {
-                        if (!$pluginfo->is_standard()) {
-                            $contribs[$pluginname] = $pluginfo;
-                        }
-                    }
-                }
-                $plugininfo = $contribs;
+                // Get all plugins by contrib.
+                $plugininfo = self::get_plugins_by_parameters($pluginman, null, false);
             } else {
                 // Get all plugins.
-                $all = array();
-                foreach ($plugininfo as $plugintype => $pluginnames) {
-                    foreach ($pluginnames as $pluginname => $pluginfo) {
-                        $all[$pluginname] = $pluginfo;
-                    }
-                }
-                $plugininfo = $all;
+                $plugininfo = self::get_plugins_by_parameters($pluginman, null, true);
             }
         }
 
@@ -133,5 +107,29 @@ class local_pluginsfetcher_external extends external_api {
                 ), 'plugins'
             )
         );
+    }
+
+    /**
+     * Retrieves plugin data based on type and contrib.
+     *
+     * @param $pluginman
+     * @param $type
+     * @param bool $all
+     * @return array
+     */
+    protected static function get_plugins_by_parameters($pluginman, $type = null, $all = false) {
+        $plugins = array();
+        $plugininfo = $pluginman->get_plugins();
+
+        foreach ($plugininfo as $plugintype => $pluginnames) {
+            foreach ($pluginnames as $pluginname => $pluginfo) {
+                if ($all || ($pluginfo->type == $type && !$pluginfo->is_standard()) ||
+                    (is_null($type) && !$pluginfo->is_standard())) {
+                        $plugins[$pluginname] = $pluginfo;
+                }
+            }
+        }
+
+        return $plugins;
     }
 }
