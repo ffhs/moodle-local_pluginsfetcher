@@ -23,3 +23,4 @@
  */
 
 $string['pluginname'] = 'Plugins fetcher';
+$string['privacy:metadata'] = 'The Plugins fetcher does not store any personal data.';
