@@ -12,10 +12,10 @@ There are two optional parameters which can be combined to fetch only given data
 | contribonly | int    | Only additional plugins will be fetched |
 
 ## Installation
-1. Copy this plugin to the `local` directory of your Moodle instance: `git clone https://github.com/adpe/moodle-local_pluginsfetcher.git local_pluginsfetcher`
+1. Copy this plugin to the `local` directory of your Moodle instance: `git clone https://github.com/adpe/moodle-local_pluginsfetcher.git local/pluginsfetcher`
 2. Visit the notifications page to complete the install process
 
-For more information, visit [documentation](http://docs.moodle.org/en/Installing_contributed_modules_or_plugins) for installing contributed modules and plugins.
+For more information, visit [MoodleDocs](https://docs.moodle.org/36/en/Installing_plugins#Installing_manually_at_the_server) for installing contributed modules and plugins.
 
 ## Configuration
 Please create a `token` for this new created service `Plugins fetcher` using [Site administration](https://FQDN/admin/settings.php?section=webservicetokens). It's important that the user has the capability `moodle/site:config`.
