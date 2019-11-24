@@ -22,5 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 $string['pluginname'] = 'Plugins fetcher';
 $string['privacy:metadata'] = 'The Plugins fetcher does not store any personal data.';

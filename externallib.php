@@ -53,6 +53,8 @@ class local_pluginsfetcher_external extends external_api {
      * @throws required_capability_exception
      */
     public static function get_information($type, $contribonly) {
+        $syscontext = context_system::instance();
+        require_capability('moodle/site:config', $syscontext);
 
         $params = self::validate_parameters(self::get_information_parameters(),
             array(
@@ -84,9 +86,6 @@ class local_pluginsfetcher_external extends external_api {
         if (empty($plugininfo)) {
             return array();
         }
-
-        $syscontext = context_system::instance();
-        require_capability('moodle/site:config', $syscontext);
 
         return $plugininfo;
     }
