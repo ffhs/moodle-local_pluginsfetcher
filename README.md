@@ -1,4 +1,4 @@
-# Moodle Plugins Fetcher Plugin [![Build Status](https://travis-ci.org/adpe/moodle-local_pluginsfetcher.svg?branch=master)](https://travis-ci.org/adpe/moodle-local_pluginsfetcher)
+# Moodle Plugins Fetcher Plugin [![Build Status](https://travis-ci.org/adpe/moodle-local_pluginsfetcher.svg?branch=MOODLE_37_STABLE)](https://travis-ci.org/adpe/moodle-local_pluginsfetcher)
 
 This plugin install a new webservice `local_pluginsfetcher_get_information` which can be use to retrieve information about installed plugins.
 
