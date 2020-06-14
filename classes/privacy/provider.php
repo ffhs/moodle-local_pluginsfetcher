@@ -29,6 +29,9 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy Subsystem for local_pluginsfetcher implementing null_provider.
  *
+ * @package    local_pluginsfetcher
+ * @copyright  2019 Adrian Perez <p.adrian@gmx.ch> {@link https://adrianperez.me}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements
     // This plugin does not store any personal user data.
