@@ -26,6 +26,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
 
+/**
+ * External webservice functions.
+ *
+ * @package   local_pluginsfetcher
+ * @copyright 2019 Adrian Perez <p.adrian@gmx.ch> {@link https://adrianperez.me}
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class local_pluginsfetcher_external extends external_api {
 
     /**
@@ -111,8 +118,8 @@ class local_pluginsfetcher_external extends external_api {
     /**
      * Retrieves plugin data based on type and contrib.
      *
-     * @param $pluginman
-     * @param $type
+     * @param object $pluginman
+     * @param string $type
      * @param bool $all
      * @return array
      */
