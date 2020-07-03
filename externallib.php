@@ -128,10 +128,11 @@ class local_pluginsfetcher_external extends external_api {
         $plugininfo = $pluginman->get_plugins();
 
         foreach ($plugininfo as $plugintype => $pluginnames) {
-            foreach ($pluginnames as $pluginname => $pluginfo) {
-                if ($all || ($pluginfo->type == $type && !$pluginfo->is_standard()) ||
-                    (is_null($type) && !$pluginfo->is_standard())) {
-                        $plugins[$pluginname] = $pluginfo;
+            foreach ($pluginnames as $pluginname => $plugin) {
+                if ($all || ($plugin->type == $type && !$plugin->is_standard()) ||
+                    (is_null($type) && !$plugin->is_standard())) {
+                    $key = $plugintype . '_' . $pluginname;
+                    $plugins[$key] = $plugin;
                 }
             }
         }
