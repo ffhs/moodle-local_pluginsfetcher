@@ -1,7 +1,7 @@
 language: php
 
 addons:
-  postgresql: "9.4"
+  postgresql: "9.5"
 
 services:
   - mysql
@@ -30,10 +30,8 @@ env:
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - nvm install 14.2.0
-  - nvm use 14.2.0
-  - cd ../../..
-  - composer create-project -n --no-dev --prefer-dist blackboard-open-source/moodle-plugin-ci ci ^2
+  - cd ../..
+  - composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3
   - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
@@ -49,5 +47,8 @@ script:
   - moodle-plugin-ci mustache
   - moodle-plugin-ci grunt
   - moodle-plugin-ci phpdoc
-  - moodle-plugin-ci phpunit
-  - moodle-plugin-ci behat --profile chrome --dump
+  - moodle-plugin-ci phpunit --coverage-clover
+  - moodle-plugin-ci behat
+
+after_success:
+  - moodle-plugin-ci coveralls-upload
