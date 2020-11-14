@@ -29,17 +29,19 @@ global $CFG;
 require_once($CFG->dirroot.'/webservice/tests/helpers.php');
 require_once($CFG->dirroot.'/local/pluginsfetcher/externallib.php');
 
+/**
+ * Class local_pluginsfetcher_external_testcase.
+ */
 class local_pluginsfetcher_external_testcase extends externallib_advanced_testcase
 {
 
     /**
      * Test get all plugins information.
      */
-    public function test_get_information_all()
-    {
+    public function test_get_information_all() {
         $this->resetAfterTest(true);
 
-        // Set the required capabilities by the external function
+        // Set the required capabilities by the external function.
         $contextid = context_system::instance()->id;
         $roleid = $this->assignUserCapability('moodle/site:config', $contextid);
 
@@ -47,13 +49,13 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
 
         $returnvalue = local_pluginsfetcher_external::get_information($params['type'], $params['contribonly']);
 
-        // We need to execute the return values cleaning process to simulate the web service server
+        // We need to execute the return values cleaning process to simulate the web service server.
         $returnvalue = external_api::clean_returnvalue(local_pluginsfetcher_external::get_information_returns(),
             $returnvalue);
 
         $this->assertEquals('mod_assign', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
-        // Call without required capability
+        // Call without required capability.
         $this->unassignUserCapability('moodle/site:config', $contextid, $roleid);
         $this->expectException(required_capability_exception::class);
         $returnvalue = local_pluginsfetcher_external::get_information($params['type'], $params['contribonly']);
@@ -62,12 +64,11 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     /**
      * Test get plugins information by type.
      */
-    public function test_get_information_by_type()
-    {
+    public function test_get_information_by_type() {
         $this->resetAfterTest(true);
 
         $contextid = context_system::instance()->id;
-        $roleid = $this->assignUserCapability('moodle/site:config', $contextid);
+        $this->assignUserCapability('moodle/site:config', $contextid);
 
         $params = array('type' => 'report', 'contribonly' => '0');
 
@@ -91,12 +92,11 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     /**
      * Test get plugins information by 3rd party plugins.
      */
-    public function test_get_information_by_contribonly()
-    {
+    public function test_get_information_by_contribonly() {
         $this->resetAfterTest(true);
 
         $contextid = context_system::instance()->id;
-        $roleid = $this->assignUserCapability('moodle/site:config', $contextid);
+        $this->assignUserCapability('moodle/site:config', $contextid);
 
         $params = array('type' => '', 'contribonly' => '1');
 
