@@ -90,7 +90,7 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     }
 
     /**
-     * Test get plugins information by 3rd party plugins.
+     * Test get plugins information by contribonly.
      */
     public function test_get_information_by_contribonly() {
         $this->resetAfterTest(true);
@@ -99,6 +99,26 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
         $this->assignUserCapability('moodle/site:config', $contextid);
 
         $params = array('type' => '', 'contribonly' => '1');
+
+        $returnvalue = local_pluginsfetcher_external::get_information($params['type'], $params['contribonly']);
+
+        $returnvalue = external_api::clean_returnvalue(local_pluginsfetcher_external::get_information_returns(),
+            $returnvalue);
+
+        $this->assertCount(1, $returnvalue);
+        $this->assertEquals('local_pluginsfetcher', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
+    }
+
+    /**
+     * Test get plugins information by type and contribonly.
+     */
+    public function test_get_information_by_type_and_contribonly() {
+        $this->resetAfterTest(true);
+
+        $contextid = context_system::instance()->id;
+        $this->assignUserCapability('moodle/site:config', $contextid);
+
+        $params = array('type' => 'local', 'contribonly' => '1');
 
         $returnvalue = local_pluginsfetcher_external::get_information($params['type'], $params['contribonly']);
 
