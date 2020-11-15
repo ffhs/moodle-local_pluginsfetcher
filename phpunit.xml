@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">local/pluginsfetcher</directory>
+            <exclude>
+                <directory suffix=".php">local/pluginsfetcher/classes/privacy</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
