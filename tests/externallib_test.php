@@ -52,11 +52,11 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     public function test_get_information_all() {
         $this->params = ['type' => '', 'contribonly' => '0'];
 
-        $returnvalue = $this->setupTestInitCapabilitiesAndGetInformation();
+        $returnvalue = $this->init_test_and_capabilities_and_get_information();
 
         $this->assertEquals('mod_assign', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
-        $returnvalue = $this->removeCapabilitiesAndGetInformation();
+        $returnvalue = $this->remove_capabilities_and_get_information();
     }
 
     /**
@@ -65,16 +65,16 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     public function test_get_information_by_type() {
         $this->params = ['type' => 'report', 'contribonly' => '0'];
 
-        $returnvalue = $this->setupTestInitCapabilitiesAndGetInformation();
+        $returnvalue = $this->init_test_and_capabilities_and_get_information();
 
         $this->assertEquals('report_backups', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
         $this->params['type'] = 'block';
-        $returnvalue = $this->getInformationAndCleanValues();
+        $returnvalue = $this->get_cleaned_information();
 
         $this->assertEquals('block_activity_modules', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
-        $returnvalue = $this->removeCapabilitiesAndGetInformation();
+        $returnvalue = $this->remove_capabilities_and_get_information();
     }
 
     /**
@@ -83,12 +83,12 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     public function test_get_information_by_contribonly() {
         $this->params = ['type' => '', 'contribonly' => '1'];
 
-        $returnvalue = $this->setupTestInitCapabilitiesAndGetInformation();
+        $returnvalue = $this->init_test_and_capabilities_and_get_information();
 
         $this->assertCount(1, $returnvalue);
         $this->assertEquals('local_pluginsfetcher', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
-        $returnvalue = $this->removeCapabilitiesAndGetInformation();
+        $returnvalue = $this->remove_capabilities_and_get_information();
     }
 
     /**
@@ -97,32 +97,59 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
     public function test_get_information_by_type_and_contribonly() {
         $this->params = ['type' => 'local', 'contribonly' => '1'];
 
-        $returnvalue = $this->setupTestInitCapabilitiesAndGetInformation();
+        $returnvalue = $this->init_test_and_capabilities_and_get_information();
 
         $this->assertCount(1, $returnvalue);
         $this->assertEquals('local_pluginsfetcher', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
-        $returnvalue = $this->removeCapabilitiesAndGetInformation();
+        $returnvalue = $this->remove_capabilities_and_get_information();
     }
 
-    protected function setupTestInitCapabilitiesAndGetInformation() {
+    /**
+     * Init test, set capabilities and get information.
+     *
+     * @return array|bool|mixed
+     * @throws dml_exception
+     * @throws invalid_parameter_exception
+     * @throws invalid_response_exception
+     * @throws required_capability_exception
+     */
+    protected function init_test_and_capabilities_and_get_information() {
         $this->resetAfterTest(true);
 
         // Set the required capabilities by the external function.
         $this->contextid = context_system::instance()->id;
         $this->roleid = $this->assignUserCapability('moodle/site:config', $this->contextid);
 
-        return $this->getInformationAndCleanValues();
+        return $this->get_cleaned_information();
     }
 
-    protected function getInformationAndCleanValues() {
+    /**
+     * Call the webservice and return cleaned values.
+     *
+     * @return array|bool|mixed
+     * @throws dml_exception
+     * @throws invalid_parameter_exception
+     * @throws invalid_response_exception
+     * @throws required_capability_exception
+     */
+    protected function get_cleaned_information() {
         $returnvalue = local_pluginsfetcher_external::get_information($this->params['type'], $this->params['contribonly']);
 
         // We need to execute the return values cleaning process to simulate the web service server.
         return external_api::clean_returnvalue(local_pluginsfetcher_external::get_information_returns(), $returnvalue);
     }
 
-    protected function removeCapabilitiesAndGetInformation() {
+    /**
+     * Remove capabilities and get information.
+     *
+     * @return array|string
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws invalid_parameter_exception
+     * @throws required_capability_exception
+     */
+    protected function remove_capabilities_and_get_information() {
         // Call without required capability.
         $this->unassignUserCapability('moodle/site:config', $this->contextid, $this->roleid);
         $this->expectException(required_capability_exception::class);
