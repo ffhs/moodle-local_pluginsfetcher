@@ -18,7 +18,7 @@
  * External webservice template.
  *
  * @package   local_pluginsfetcher
- * @copyright 2019 Adrian Perez <p.adrian@gmx.ch> {@link https://adrianperez.me}
+ * @copyright 2019 Adrian Perez <me@adrianperez.me> {@link https://adrianperez.me}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -42,32 +42,32 @@ class local_pluginsfetcher_external extends external_api {
      */
     public static function get_information_parameters() {
         return new external_function_parameters(
-            array(
-                'type' => new external_value( PARAM_TEXT, 'The type of plugins to retrieve (optional).', false, null),
-                'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', false, null)
-            )
+                array(
+                        'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', false, null),
+                        'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', false, null)
+                )
         );
     }
 
     /**
      * Returns plugins information.
      *
-     * @param string $type
-     * @param int|null $contribonly
-     * @return string
+     * @param string|null $type The plugin type.
+     * @param int|null $contribonly Include contributed plugins.
+     * @return array|\core\plugininfo\base[]|string
      * @throws dml_exception
      * @throws invalid_parameter_exception
      * @throws required_capability_exception
      */
-    public static function get_information($type, $contribonly) {
+    public static function get_information(string $type, ?int $contribonly) {
         $syscontext = context_system::instance();
         require_capability('moodle/site:config', $syscontext);
 
         $params = self::validate_parameters(self::get_information_parameters(),
-            array(
-                'type' => $type,
-                'contribonly' => $contribonly
-            )
+                array(
+                        'type' => $type,
+                        'contribonly' => $contribonly
+                )
         );
 
         $pluginman = core_plugin_manager::instance();
@@ -75,7 +75,7 @@ class local_pluginsfetcher_external extends external_api {
         if (!empty($params['type'])) {
             if (!empty($params['contribonly'])) {
                 // Get additional plugins by type and contrib.
-                $plugininfo = self::get_plugins_by_parameters($pluginman, $type, false);
+                $plugininfo = self::get_plugins_by_parameters($pluginman, $type);
             } else {
                 // Get all plugins by type.
                 $plugininfo = $pluginman->get_plugins_of_type($type);
@@ -83,15 +83,11 @@ class local_pluginsfetcher_external extends external_api {
         } else {
             if (!empty($params['contribonly'])) {
                 // Get all plugins by contrib.
-                $plugininfo = self::get_plugins_by_parameters($pluginman, null, false);
+                $plugininfo = self::get_plugins_by_parameters($pluginman);
             } else {
                 // Get all plugins.
                 $plugininfo = self::get_plugins_by_parameters($pluginman, null, true);
             }
-        }
-
-        if (empty($plugininfo)) {
-            return array();
         }
 
         return $plugininfo;
@@ -104,33 +100,33 @@ class local_pluginsfetcher_external extends external_api {
      */
     public static function get_information_returns() {
         return new external_multiple_structure(
-            new external_single_structure(
-                array(
-                    'type' => new external_value(PARAM_TEXT, 'The type'),
-                    'name' => new external_value(PARAM_TEXT, 'The name'),
-                    'versiondb' => new external_value(PARAM_INT, 'The installed version'),
-                    'release' => new external_value(PARAM_TEXT, 'The installed release')
-                ), 'plugins'
-            )
+                new external_single_structure(
+                        array(
+                                'type' => new external_value(PARAM_TEXT, 'The type'),
+                                'name' => new external_value(PARAM_TEXT, 'The name'),
+                                'versiondb' => new external_value(PARAM_INT, 'The installed version'),
+                                'release' => new external_value(PARAM_TEXT, 'The installed release')
+                        ), 'plugins'
+                )
         );
     }
 
     /**
      * Retrieves plugin data based on type and contrib.
      *
-     * @param object $pluginman
-     * @param string $type
-     * @param bool $all
+     * @param object $pluginman The core plugin manager singleton instance.
+     * @param string|null $type The plugin type.
+     * @param bool $contribonly Include contributed plugins.
      * @return array
      */
-    protected static function get_plugins_by_parameters($pluginman, $type = null, $all = false) {
+    protected static function get_plugins_by_parameters(object $pluginman, $type = null, $contribonly = false): array {
         $plugins = array();
         $plugininfo = $pluginman->get_plugins();
 
         foreach ($plugininfo as $plugintype => $pluginnames) {
             foreach ($pluginnames as $pluginname => $plugin) {
-                if ($all || ($plugin->type == $type && !$plugin->is_standard()) ||
-                    (is_null($type) && !$plugin->is_standard())) {
+                if ($contribonly || ($plugin->type == $type && !$plugin->is_standard()) ||
+                        (is_null($type) && !$plugin->is_standard())) {
                     $key = $plugintype . '_' . $pluginname;
                     $plugins[$key] = $plugin;
                 }
