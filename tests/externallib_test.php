@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/local/pluginsfetcher/externallib.php');
 /**
  * Class local_pluginsfetcher_external_testcase.
  */
-class local_pluginsfetcher_external_testcase extends externallib_advanced_testcase {
+class externallib_test extends externallib_advanced_testcase {
     /**
      * @var array
      */
@@ -72,7 +72,7 @@ class local_pluginsfetcher_external_testcase extends externallib_advanced_testca
         $this->params['type'] = 'block';
         $returnvalue = $this->get_cleaned_information();
 
-        $this->assertEquals('block_activity_modules', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
+        $this->assertEquals('block_accessreview', $returnvalue[0]['type'].'_'.$returnvalue[0]['name']);
 
         $returnvalue = $this->remove_capabilities_and_get_information();
     }
