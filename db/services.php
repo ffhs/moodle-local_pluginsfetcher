@@ -26,20 +26,20 @@ defined('MOODLE_INTERNAL') || die();
 
 // We defined the web service functions to install.
 $functions = array(
-    'local_pluginsfetcher_get_information' => array(
-        'classname'   => 'local_pluginsfetcher_external',
-        'methodname'  => 'get_information',
-        'classpath'   => 'local/pluginsfetcher/externallib.php',
-        'description' => 'Return all installed plugins information.',
-        'type'        => 'read',
-    )
+        'local_pluginsfetcher_get_information' => array(
+                'classname' => 'local_pluginsfetcher_external',
+                'methodname' => 'get_information',
+                'classpath' => 'local/pluginsfetcher/externallib.php',
+                'description' => 'Return all installed plugins information.',
+                'type' => 'read',
+        )
 );
 
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = array(
-    'Plugins fetcher' => array(
-        'functions' => array ('local_pluginsfetcher_get_information'),
-        'restrictedusers' => 0,
-        'enabled' => 1
-    )
+        'Plugins fetcher' => array(
+                'functions' => array('local_pluginsfetcher_get_information'),
+                'restrictedusers' => 1,
+                'enabled' => 0
+        )
 );

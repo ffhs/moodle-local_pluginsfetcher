@@ -18,4 +18,6 @@ There are two optional parameters which can be combined to fetch only given data
 For more information, visit [MoodleDocs](https://docs.moodle.org/36/en/Installing_plugins#Installing_manually_at_the_server) for installing contributed modules and plugins.
 
 ## Configuration
-Please create a `token` for this new created service `Plugins fetcher` using [Site administration](https://FQDN/admin/settings.php?section=webservicetokens). It's important that the user has the capability `moodle/site:config`.
+1. Enable the pre-built service under [Site administration / Server / Web services / External services](https://FQDN/admin/settings.php?section=externalservices) with click on `Edit`
+2. Add the user to be used under `Autorised users`
+3. Create a `token` for this service `Plugins fetcher` and user under [Site administration / Server / Web services / Manage tokens](https://FQDN/admin/webservice/tokens.php?action=create). It's important that the user has the capability `moodle/site:config`.
