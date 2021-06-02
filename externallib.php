@@ -42,10 +42,10 @@ class local_pluginsfetcher_external extends external_api {
      */
     public static function get_information_parameters() {
         return new external_function_parameters(
-                array(
-                        'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', false, null),
-                        'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', false, null)
-                )
+            array(
+                'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', false, null),
+                'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', false, null)
+            )
         );
     }
 
@@ -59,15 +59,15 @@ class local_pluginsfetcher_external extends external_api {
      * @throws invalid_parameter_exception
      * @throws required_capability_exception
      */
-    public static function get_information(string $type, ?int $contribonly) {
+    public static function get_information(?string $type, ?int $contribonly) {
         $syscontext = context_system::instance();
         require_capability('moodle/site:config', $syscontext);
 
         $params = self::validate_parameters(self::get_information_parameters(),
-                array(
-                        'type' => $type,
-                        'contribonly' => $contribonly
-                )
+            array(
+                'type' => $type,
+                'contribonly' => $contribonly
+            )
         );
 
         $pluginman = core_plugin_manager::instance();
@@ -100,14 +100,14 @@ class local_pluginsfetcher_external extends external_api {
      */
     public static function get_information_returns() {
         return new external_multiple_structure(
-                new external_single_structure(
-                        array(
-                                'type' => new external_value(PARAM_TEXT, 'The type'),
-                                'name' => new external_value(PARAM_TEXT, 'The name'),
-                                'versiondb' => new external_value(PARAM_INT, 'The installed version'),
-                                'release' => new external_value(PARAM_TEXT, 'The installed release')
-                        ), 'plugins'
-                )
+            new external_single_structure(
+                array(
+                    'type' => new external_value(PARAM_TEXT, 'The type'),
+                    'name' => new external_value(PARAM_TEXT, 'The name'),
+                    'versiondb' => new external_value(PARAM_INT, 'The installed version'),
+                    'release' => new external_value(PARAM_TEXT, 'The installed release')
+                ), 'plugins'
+            )
         );
     }
 
@@ -126,7 +126,7 @@ class local_pluginsfetcher_external extends external_api {
         foreach ($plugininfo as $plugintype => $pluginnames) {
             foreach ($pluginnames as $pluginname => $plugin) {
                 if ($contribonly || ($plugin->type == $type && !$plugin->is_standard()) ||
-                        (is_null($type) && !$plugin->is_standard())) {
+                    (is_null($type) && !$plugin->is_standard())) {
                     $key = $plugintype . '_' . $pluginname;
                     $plugins[$key] = $plugin;
                 }
