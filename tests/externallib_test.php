@@ -22,6 +22,18 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_pluginsfetcher;
+
+use coding_exception;
+use context_system;
+use dml_exception;
+use external_api;
+use externallib_advanced_testcase;
+use invalid_parameter_exception;
+use invalid_response_exception;
+use local_pluginsfetcher_external;
+use required_capability_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
