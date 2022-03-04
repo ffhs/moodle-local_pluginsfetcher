@@ -22,6 +22,18 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_pluginsfetcher;
+
+use coding_exception;
+use context_system;
+use dml_exception;
+use external_api;
+use externallib_advanced_testcase;
+use invalid_parameter_exception;
+use invalid_response_exception;
+use local_pluginsfetcher_external;
+use required_capability_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -32,7 +44,7 @@ require_once($CFG->dirroot.'/local/pluginsfetcher/externallib.php');
 /**
  * Class local_pluginsfetcher_external_testcase.
  */
-class local_pluginsfetcher_external_testcase extends externallib_advanced_testcase {
+class externallib_test extends externallib_advanced_testcase {
     /**
      * @var array
      */
