@@ -24,8 +24,6 @@
 
 namespace local_pluginsfetcher\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem for local_pluginsfetcher implementing null_provider.
  *
