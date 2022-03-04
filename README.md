@@ -1,4 +1,4 @@
-# Moodle Plugins Fetcher Plugin [![Build Status](https://travis-ci.org/adpe/moodle-local_pluginsfetcher.svg?branch=MOODLE_36_STABLE)](https://travis-ci.org/adpe/moodle-local_pluginsfetcher)
+# Moodle Plugins Fetcher Plugin
 
 This plugin install a new webservice `local_pluginsfetcher_get_information` which can be use to retrieve information about installed plugins.
 
@@ -12,7 +12,7 @@ There are two optional parameters which can be combined to fetch only given data
 | contribonly | int    | Only additional plugins will be fetched |
 
 ## Installation
-1. Copy this plugin to the `local` directory of your Moodle instance: `git clone https://github.com/adpe/moodle-local_pluginsfetcher.git local/pluginsfetcher`
+1. Copy this plugin to the `local` directory of your Moodle instance: `git clone https://github.com/ffhs/moodle-local_pluginsfetcher.git local/pluginsfetcher`
 2. Visit the notifications page to complete the install process
 
 For more information, visit [MoodleDocs](https://docs.moodle.org/36/en/Installing_plugins#Installing_manually_at_the_server) for installing contributed modules and plugins.
