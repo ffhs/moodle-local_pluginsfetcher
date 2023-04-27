@@ -33,6 +33,8 @@ require_once($CFG->dirroot.'/local/pluginsfetcher/externallib.php');
 
 /**
  * Class local_pluginsfetcher_external_testcase.
+ *
+ * @runTestsInSeparateProcesses
  */
 class externallib_test extends externallib_advanced_testcase {
     /**
