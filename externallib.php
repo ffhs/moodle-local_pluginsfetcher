@@ -15,16 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * External webservice template.
+ * Plugin fetcher API.
  *
  * @package   local_pluginsfetcher
  * @copyright 2019 Adrian Perez <me@adrianperez.me> {@link https://adrianperez.me}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-require_once($CFG->libdir . '/externallib.php');
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_value;
 
 /**
  * External webservice functions.
@@ -43,8 +45,8 @@ class local_pluginsfetcher_external extends external_api {
     public static function get_information_parameters() {
         return new external_function_parameters(
             array(
-                'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', false, null),
-                'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', false, null)
+                'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', VALUE_DEFAULT, null),
+                'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', VALUE_DEFAULT, null)
             )
         );
     }
