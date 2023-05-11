@@ -43,8 +43,8 @@ class local_pluginsfetcher_external extends external_api {
     public static function get_information_parameters() {
         return new external_function_parameters(
             array(
-                'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', false, null),
-                'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', false, null)
+                'type' => new external_value(PARAM_TEXT, 'The type of plugins to retrieve (optional).', VALUE_DEFAULT, null),
+                'contribonly' => new external_value(PARAM_INT, 'Get only additional installed (optional)..', VALUE_DEFAULT, null)
             )
         );
     }
