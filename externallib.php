@@ -104,7 +104,7 @@ class local_pluginsfetcher_external extends external_api {
                 array(
                     'type' => new external_value(PARAM_TEXT, 'The type'),
                     'name' => new external_value(PARAM_TEXT, 'The name'),
-                    'versiondb' => new external_value(PARAM_INT, 'The installed version'),
+                    'versiondb' => new external_value(PARAM_TEXT, 'The installed version'),
                     'release' => new external_value(PARAM_TEXT, 'The installed release')
                 ), 'plugins'
             )
