@@ -26,9 +26,9 @@
 // @codingStandardsIgnoreLine
 defined('MOODLE_INTERNAL') || die(); // @codeCoverageIgnore
 
-$plugin->version  = 2025103000;
+$plugin->version  = 2026061700;
 $plugin->requires = 2022112800;
 $plugin->component = 'local_pluginsfetcher';
-$plugin->release = 'v5.1-r1';
-$plugin->supported = [401, 501];
+$plugin->release = 'v5.2-r1';
+$plugin->supported = [401, 502];
 $plugin->maturity = MATURITY_STABLE;

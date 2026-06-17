@@ -1,5 +1,17 @@
 # Changelog
 
+## Version v5.2-r1 (2026061700)
+
+### Added
+- Add support for Moodle 5.2
+
+### Fixed
+- Fix parameter type for weekly Moodle versions
+
+### Changed
+- Update README
+- Update Moodle Plugin CI for Moodle 5.2
+
 ## Version v5.1-r1 (2025103000)
 
 ### Added
