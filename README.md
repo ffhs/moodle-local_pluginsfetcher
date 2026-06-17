@@ -37,6 +37,25 @@ To start using the plugin, you need to:
 2. Create a new web service token for the assigned user under _Site Administration > Plugins > Web services > Manage
    tokens_.
 
+> **Use the cli install script to automatically perform the necessary steps**: 
+> - Enable web services and REST protocol.
+> - Create a webservice user
+> - Create a webservice role with the necessary capabilities.
+> - Assign the webservice user to the webservice role in system context.
+> - Authorise the user to use the webservice.
+> - Create a token for the user - the token is printed out, MAKE SURE TO COPY THE TOKEN BECAUSE IT WILL NEVER BE SHOWN AGAIN!
+> ```
+> php local/pluginsfetcher/cli/webservicesetup.php
+> ```
+
+### Example usage
+```
+curl "http://moodle.example.com/webservice/rest/server.php?wstoken=XXXXXXXXXXXX&wsfunction=local_pluginsfetcher_get_info&moodlewsrestformat=json"
+
+curl "http://moodle.example.com/webservice/rest/server.php?wstoken=XXXXXXXXXXXX&wsfunction=local_pluginsfetcher_get_info&moodlewsrestformat=json&type=mod"
+
+curl "http://moodle.example.com/webservice/rest/server.php?wstoken=XXXXXXXXXXXX&wsfunction=local_pluginsfetcher_get_info&moodlewsrestformat=json&contribonly=1"
+```
 
 ### API documentation
 
@@ -115,7 +134,7 @@ The `local_pluginsfetcher_get_info` web service function returns a JSON object w
 }
 ```
 
-### Example response (legacy web service)
+#### Example response (legacy web service)
 
 The `local_pluginsfetcher_get_information` web service function returns a JSON object with the following structure:
 

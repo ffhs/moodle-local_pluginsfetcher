@@ -50,6 +50,7 @@ $functions = [
 // We define the services to install as pre-build services. A pre-build service is not editable by administrator.
 $services = [
     'Plugins fetcher' => [
+        'shortname' => 'pluginsfetcher',
         'functions' => [
             'local_pluginsfetcher_get_info',
         ],
@@ -57,6 +58,7 @@ $services = [
         'enabled' => 1,
     ],
     'Plugins fetcher (legacy)' => [
+        'shortname' => 'pluginsfetcher_legacy',
         'functions' => [
             'local_pluginsfetcher_get_information',
         ],
