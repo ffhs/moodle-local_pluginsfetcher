@@ -26,14 +26,13 @@ define('CLI_SCRIPT', 1);
 
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir  . '/clilib.php');
-require_once($CFG->dirroot . '/lib/testing/generator/data_generator.php');
 require_once($CFG->dirroot . '/lib/externallib.php');
 require_once($CFG->dirroot . '/webservice/lib.php');
 
 // Set the variables for the new webservice.
 $wsname = 'pluginsfetcher';
 $additionalcapabilities = [
-        'moodle/site:config',
+    'moodle/site:config',
 ];
 
 // Set system context.
@@ -48,13 +47,17 @@ $enabledprotocols = get_config('core', 'webserviceprotocols');
 if (stripos($enabledprotocols, 'rest') === false) {
     set_config('webserviceprotocols', $enabledprotocols . ',rest');
 }
+
 // Create a webservice user.
-$datagenerator = new testing_data_generator();
-$webserviceuser = $datagenerator->create_user([
-        'username' => 'ws-' . $wsname . '-user',
-        'firstname' => 'Webservice',
-        'lastname' => 'User (' . $wsname . ')',
-        'auth' => 'webservice']);
+$webserviceuserid = user_create_user([
+    'username' => 'ws-' . $wsname . '-user',
+    'firstname' => 'Webservice',
+    'lastname' => 'User (' . $wsname . ')',
+    'email' => 'ws-' . $wsname . '-user@' . parse_url($CFG->wwwroot, PHP_URL_HOST),
+    'auth' => 'webservice',
+    'confirmed' => 1,
+    'mnethostid' => $CFG->mnet_localhost_id,
+]);
 
 // Create a webservice role.
 $wsroleid = create_role('WS Role for ' . $wsname, 'ws-' . $wsname . '-role', '');
@@ -66,16 +69,16 @@ foreach ($additionalcapabilities as $cap) {
 }
 
 // Assign the webservice user to the webservice role in system context.
-role_assign($wsroleid, $webserviceuser->id, $systemcontext->id);
+role_assign($wsroleid, $webserviceuserid, $systemcontext->id);
 
 $webservicemanager = new webservice();
 $service = $webservicemanager->get_external_service_by_shortname($wsname);
 
 // Authorise the user to use the service.
-$webservicemanager->add_ws_authorised_user((object) ['externalserviceid' => $service->id, 'userid' => $webserviceuser->id]);
+$webservicemanager->add_ws_authorised_user((object) ['externalserviceid' => $service->id, 'userid' => $webserviceuserid]);
 
 // Create a token for the user.
-$token = external_generate_token(EXTERNAL_TOKEN_PERMANENT, $service->id, $webserviceuser->id, $systemcontext);
+$token = external_generate_token(EXTERNAL_TOKEN_PERMANENT, $service->id, $webserviceuserid, $systemcontext);
 cli_writeln("Token for $wsname created: $token - MAKE SURE TO COPY THE TOKEN BECAUSE IT WILL NEVER BE SHOWN AGAIN!\n");
 
 $service = $webservicemanager->get_external_service_by_id($service->id);
