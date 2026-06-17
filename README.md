@@ -44,8 +44,11 @@ To start using the plugin, you need to:
 > - Assign the webservice user to the webservice role in system context.
 > - Authorise the user to use the webservice.
 > - Create a token for the user - the token is printed out, MAKE SURE TO COPY THE TOKEN BECAUSE IT WILL NEVER BE SHOWN AGAIN!
+> ```
+> php local/pluginsfetcher/cli/webservicesetup.php
+> ```
 
-#### Example usage
+### Example usage
 ```
 curl "http://moodle.example.com/webservice/rest/server.php?wstoken=XXXXXXXXXXXX&wsfunction=local_pluginsfetcher_get_info&moodlewsrestformat=json"
 
