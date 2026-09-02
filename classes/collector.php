@@ -113,28 +113,33 @@ class collector {
     public static function get_software_stats(): array {
         global $CFG;
 
-        if (!self::is_software_stats_enabled()) {
-            return [];
+        $softwarestats = [];
+        if (self::is_software_option_enabled('show_moodle_version')) {
+            $softwarestats['moodle']['version'] = $CFG->version;
         }
-
-        return [
-            'moodle' => [
-                'version' => $CFG->version,
-                'release' => $CFG->release,
-                'branch' => $CFG->branch,
-            ],
-            'php' => [
+        if (self::is_software_option_enabled('show_moodle_release')) {
+            $softwarestats['moodle']['release'] = $CFG->release;
+        }
+        if (self::is_software_option_enabled('show_moodle_branch')) {
+            $softwarestats['moodle']['branch'] = $CFG->branch;
+        }
+        if (self::is_software_option_enabled('show_php_version')) {
+            $softwarestats['php'] = [
                 'version' => phpversion(),
                 'versionid' => PHP_VERSION_ID,
-            ],
-            'db' => [
-                'type' => $CFG->dbtype,
-            ],
-            'os' => [
+            ];
+        }
+        if (self::is_software_option_enabled('show_database_system')) {
+            $softwarestats['db']['type'] = $CFG->dbtype;
+        }
+        if (self::is_software_option_enabled('show_os_system')) {
+            $softwarestats['os'] = [
                 'name' => PHP_OS,
                 'family' => PHP_OS_FAMILY,
-            ],
-        ];
+            ];
+        }
+
+        return $softwarestats;
     }
 
     /**
@@ -156,11 +161,13 @@ class collector {
     }
 
     /**
-     * Checks whether software statistics should be displayed.
+     * Checks whether a software statistic option is enabled.
+     *
+     * @param string $option Configuration name.
      * @return bool
      */
-    private static function is_software_stats_enabled(): bool {
-        $value = get_config('local_pluginsfetcher', 'show_software_stats');
+    private static function is_software_option_enabled(string $option): bool {
+        $value = get_config('local_pluginsfetcher', $option);
         return $value === false || (bool) $value;
     }
 

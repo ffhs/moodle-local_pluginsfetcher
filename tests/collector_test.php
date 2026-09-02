@@ -138,7 +138,6 @@ final class collector_test extends \advanced_testcase {
      */
     public function test_get_software_stats(): void {
         $this->resetAfterTest();
-        set_config('show_software_stats', 1, 'local_pluginsfetcher');
 
         global $CFG;
 
@@ -153,6 +152,30 @@ final class collector_test extends \advanced_testcase {
         $this->assertSame(phpversion(), $softwarestats['php']['version'], 'PHP version does not match.');
         $this->assertSame($CFG->dbtype, $softwarestats['db']['type'], 'Database type does not match.');
         $this->assertSame(PHP_OS, $softwarestats['os']['name'], 'OS name does not match.');
+    }
+
+    /**
+     * Tests that software statistics can be selected independently.
+     *
+     * @covers \local_pluginsfetcher\collector::get_software_stats
+     */
+    public function test_get_software_stats_options(): void {
+        global $CFG;
+
+        $this->resetAfterTest();
+        set_config('show_moodle_version', 0, 'local_pluginsfetcher');
+        set_config('show_moodle_release', 1, 'local_pluginsfetcher');
+        set_config('show_moodle_branch', 0, 'local_pluginsfetcher');
+        set_config('show_php_version', 0, 'local_pluginsfetcher');
+        set_config('show_database_system', 1, 'local_pluginsfetcher');
+        set_config('show_os_system', 0, 'local_pluginsfetcher');
+
+        $softwarestats = collector::get_software_stats();
+
+        $this->assertSame(['release' => $CFG->release], $softwarestats['moodle']);
+        $this->assertArrayNotHasKey('php', $softwarestats);
+        $this->assertArrayNotHasKey('db', $softwarestats);
+        $this->assertArrayNotHasKey('os', $softwarestats);
     }
 
     /**
@@ -174,13 +197,24 @@ final class collector_test extends \advanced_testcase {
     }
 
     /**
-     * Tests that software statistics can be disabled.
+     * Tests that software statistics can all be disabled.
      *
      * @covers \local_pluginsfetcher\collector::get_software_stats
      */
     public function test_get_software_stats_disabled(): void {
         $this->resetAfterTest();
-        set_config('show_software_stats', 0, 'local_pluginsfetcher');
+        foreach (
+            [
+            'show_moodle_version',
+            'show_moodle_release',
+            'show_moodle_branch',
+            'show_php_version',
+            'show_database_system',
+            'show_os_system',
+            ] as $option
+        ) {
+            set_config($option, 0, 'local_pluginsfetcher');
+        }
 
         $this->assertSame([], collector::get_software_stats());
     }

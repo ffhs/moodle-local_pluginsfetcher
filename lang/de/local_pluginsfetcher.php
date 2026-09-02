@@ -28,16 +28,26 @@
 defined('MOODLE_INTERNAL') || die(); // @codeCoverageIgnore
 
 // General.
-$string['pluginname'] = 'Plugins fetcher';
+$string['pluginname'] = 'Pluginsfetcher';
 
 // Privacy.
-$string['privacy:metadata'] = 'Der Plugins fetcher speichert keine personenbezogenen Daten. Er stellt lediglich Informationen bereit, die in anderen Teilen des Systems gespeichert sind.';
+$string['privacy:metadata'] = 'Der Pluginsfetcher speichert keine personenbezogenen Daten. Er stellt lediglich Informationen bereit, die in anderen Teilen des Systems gespeichert sind.';
 
 // Settings.
-$string['settings:show_software_stats'] = 'Software Statistik ausgeben';
-$string['settings:show_software_stats_desc'] = 'Gibt die Moodle Version, PHP Version, Datenbank- sowie Betriebssysteminformationen aus.';
+$string['settings:show_moodle_version'] = 'Moodle-Version ausgeben';
+$string['settings:show_moodle_version_desc'] = 'Gibt die installierte Moodle-Version aus. Beispiel: `2024100713.01`.';
+$string['settings:show_moodle_release'] = 'Moodle-Release ausgeben';
+$string['settings:show_moodle_release_desc'] = 'Gibt das Moodle-Release aus. Beispiel: `4.5.13+ (Build: 20260818)`.';
+$string['settings:show_moodle_branch'] = 'Moodle-Branch ausgeben';
+$string['settings:show_moodle_branch_desc'] = 'Gibt die Moodle-Branch-Nummer aus. Beispiel: `405`.';
+$string['settings:show_php_version'] = 'PHP-Version ausgeben';
+$string['settings:show_php_version_desc'] = 'Gibt die genutzte PHP-Version und die PHP-Version-ID aus. Beispiel: `8.1.33 80133`.';
+$string['settings:show_database_system'] = 'Datenbanksystem ausgeben';
+$string['settings:show_database_system_desc'] = 'Gibt das genutzte Datenbanksystem aus. Beispiel: `mariadb`.';
+$string['settings:show_os_system'] = 'Betriebssystem ausgeben';
+$string['settings:show_os_system_desc'] = 'Gibt den Betriebssystem-Typ aus. Beispiel: `Linux`.';
 $string['settings:show_plugin_versions'] = 'Informationen über Pluginversionen ausgeben';
-$string['settings:show_plugin_versions_desc'] = 'Gibt die folgenden Informationen zu einem Plugin aus: version, release, requires, supported, status.';
+$string['settings:show_plugin_versions_desc'] = 'Gibt die folgenden Informationen zu einem Plugin aus: `version`, `release`, `requires`, `supported`, `status`.';
 $string['settings:excluded_plugins'] = 'Plugins oder Plugin Typen nicht ausgeben';
 $string['settings:excluded_plugins_desc'] = 'Liste an Plugins oder Plugin Typen, die nicht ausgebenen werden sollen, z.B.
 `local_pluginsfetcher` or `local_*`.<br />Ein Eintrag pro Zeile.';

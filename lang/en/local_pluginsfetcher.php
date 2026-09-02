@@ -34,10 +34,20 @@ $string['pluginname'] = 'Plugins fetcher';
 $string['privacy:metadata'] = 'The Plugins fetcher does not store any personal data. It only exposes information that is stored in other parts of the system.';
 
 // Settings.
-$string['settings:show_software_stats'] = 'Include software statistics';
-$string['settings:show_software_stats_desc'] = 'Whether Moodle version, PHP version, database and operating system information is included.';
+$string['settings:show_moodle_version'] = 'Include Moodle version';
+$string['settings:show_moodle_version_desc'] = 'Whether Moodle version information is included. Example: `2024100713.01`.';
+$string['settings:show_moodle_release'] = 'Include Moodle release';
+$string['settings:show_moodle_release_desc'] = 'Whether the Moodle release information is included. Example: `4.5.13+ (Build: 20260818)`.';
+$string['settings:show_moodle_branch'] = 'Include Moodle branch';
+$string['settings:show_moodle_branch_desc'] = 'Whether the Moodle branch number is included. Example: `405`.';
+$string['settings:show_php_version'] = 'Include PHP version';
+$string['settings:show_php_version_desc'] = 'Whether PHP version and the PHP version ID is included. Example: `8.1.33 80133`.';
+$string['settings:show_database_system'] = 'Include database system';
+$string['settings:show_database_system_desc'] = 'Whether the database system information is included. Example: `mariadb`.';
+$string['settings:show_os_system'] = 'Include operating system';
+$string['settings:show_os_system_desc'] = 'Whether operating system information is included. Example: `Linux`.';
 $string['settings:show_plugin_versions'] = 'Include plugin version information';
-$string['settings:show_plugin_versions_desc'] = 'Whether the following information about a plugin is included in the plugin data: version, release, requires, supported, status.';
+$string['settings:show_plugin_versions_desc'] = 'Whether the following information about a plugin is included in the plugin data: `version`, `release`, `requires`, `supported`, `status`.';
 $string['settings:excluded_plugins'] = 'Excluded plugins or plugin types';
 $string['settings:excluded_plugins_desc'] = 'List of plugins or plugin types to exclude from the result, 
 for example `local_pluginsfetcher` or `local_*`.<br />One entry per line.';

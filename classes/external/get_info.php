@@ -161,19 +161,21 @@ class get_info extends external_api {
                             'version' => new external_value(
                                 PARAM_TEXT,
                                 'Moodle version number (e.g., 2022112800)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
                             'release' => new external_value(
                                 PARAM_TEXT,
                                 'Moodle release identifier (e.g., 4.1)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
                             'branch' => new external_value(
                                 PARAM_INT,
                                 'Moodle branch number (e.g., 401 for 4.1)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                     'php' => new external_single_structure(
                         [
@@ -187,30 +189,36 @@ class get_info extends external_api {
                                 'PHP release identifier (e.g., 80100)',
                                 VALUE_REQUIRED
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                     'db' => new external_single_structure(
                         [
                             'type' => new external_value(
                                 PARAM_TEXT,
                                 'Database type used by Moodle (e.g., mysql, pgsql)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                     'os' => new external_single_structure(
                         [
                             'name' => new external_value(
                                 PARAM_TEXT,
                                 'Operating system name',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
                             'family' => new external_value(
                                 PARAM_TEXT,
                                 'Operating system family',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                 ],
                 'Info about installed software',

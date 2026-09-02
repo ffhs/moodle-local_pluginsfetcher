@@ -17,6 +17,34 @@ This plugin allows to share information about installed plugins and software ver
 endpoint.
 
 
+## Installation
+
+This plugin can be installed like any other Moodle plugin by placing its source code inside your Moodle installation and
+executing the upgrade routine afterward.
+
+
+### Installing via the site administration (uploaded ZIP file)
+
+1. Download the latest release of this plugin.
+
+2. Log in to your Moodle site as an admin and go to _Site administration > Plugins > Install plugins_.
+3. Upload the ZIP file with the plugin code.
+4. Check the plugin validation report and finish the installation.
+
+
+### Installing manually
+
+The plugin can be also installed by putting the contents of this directory into
+
+```
+{your/moodle/dirroot}/local/pluginsfetcher
+```
+
+Afterwards, log in to your Moodle site as an admin and go to _Site administration > Notifications_ to complete the
+installation.
+
+Alternatively, you can run `php admin/cli/upgrade.php` from the command line to complete the installation.
+
 ## Configuration and Usage
 
 During installation, the plugin will create two new external services:
@@ -52,13 +80,14 @@ To start using the plugin, you need to:
 
 The plugin settings are available under _Site administration > Plugins > Local plugins > Plugins fetcher_:
 
-- **Include software statistics** controls whether Moodle, PHP, database and operating system information is returned.
 - **Include plugin versions** controls whether version-related plugin fields such as `version`, `release`, `requires`,
   `supported` and `status` are returned.
+- There are separate settings for `Moodle version`, `Moodle release`, `Moodle branch`, `PHP version`, `database system` and `operating system` which control the returned software information.
 - **Excluded plugins and plugin types** accepts one component pattern per line, for example `local_pluginsfetcher` for
   one plugin or `local_*` for all local plugins.
+- The **Prometheus token** is used to authenticate with the Prometheus server. 
 
-### Example usage
+### Example API usage
 ```
 curl "http://moodle.example.com/webservice/rest/server.php?wstoken=XXXXXXXXXXXX&wsfunction=local_pluginsfetcher_get_info&moodlewsrestformat=json"
 
@@ -173,35 +202,19 @@ The `local_pluginsfetcher_get_information` web service function returns a JSON o
 ```
 
 
+## Prometheus exporter
 
-## Installation
+The Prometheus exporter exposes plugin and selected software statistics in Prometheus text format for monitoring and
+alerting systems. Configure a token under _Site administration > Plugins > Local plugins > Plugins fetcher > Prometheus
+token_. If configured, provide it as a `token` query parameter or as a Bearer token:
 
-This plugin can be installed like any other Moodle plugin by placing its source code inside your Moodle installation and
-executing the upgrade routine afterward.
-
-
-### Installing via the site administration (uploaded ZIP file)
-
-1. Download the latest release of this plugin.
-
-2. Log in to your Moodle site as an admin and go to _Site administration > Plugins > Install plugins_.
-3. Upload the ZIP file with the plugin code.
-4. Check the plugin validation report and finish the installation.
-
-
-### Installing manually
-
-The plugin can be also installed by putting the contents of this directory into
-
-```
-{your/moodle/dirroot}/local/pluginsfetcher
+```text
+https://moodle.example.com/local/pluginsfetcher/prometheus.php?token=XXXXXXXXXXXX
 ```
 
-Afterwards, log in to your Moodle site as an admin and go to _Site administration > Notifications_ to complete the
-installation.
+The optional `type` and `contribonly=1` parameters apply the same plugin filters as the web service.
 
-Alternatively, you can run `php admin/cli/upgrade.php` from the command line to complete the installation.
-
+The configured settings also apply to the output here.
 
 ## Reporting a bug or requesting a feature
 
