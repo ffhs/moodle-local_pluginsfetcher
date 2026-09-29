@@ -174,7 +174,7 @@ final class collector_test extends \advanced_testcase {
 
         $this->assertSame(['release' => $CFG->release], $softwarestats['moodle']);
         $this->assertArrayNotHasKey('php', $softwarestats);
-        $this->assertArrayNotHasKey('db', $softwarestats);
+        $this->assertSame(['type' => $CFG->dbtype], $softwarestats['db']);
         $this->assertArrayNotHasKey('os', $softwarestats);
     }
 
