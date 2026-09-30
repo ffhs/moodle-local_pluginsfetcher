@@ -85,7 +85,6 @@ The plugin settings are available under _Site administration > Plugins > Local p
 - There are separate settings for `Moodle version`, `Moodle release`, `Moodle branch`, `PHP version`, `database system` and `operating system` which control the returned software information.
 - **Excluded plugins and plugin types** accepts one component pattern per line, for example `local_pluginsfetcher` for
   one plugin or `local_*` for all local plugins.
-- The **Prometheus token** is used to authenticate with the Prometheus server. 
 
 ### Example API usage
 ```
@@ -200,21 +199,6 @@ The `local_pluginsfetcher_get_information` web service function returns a JSON o
     [...]
 ]
 ```
-
-
-## Prometheus exporter
-
-The Prometheus exporter exposes plugin and selected software statistics in Prometheus text format for monitoring and
-alerting systems. Configure a token under _Site administration > Plugins > Local plugins > Plugins fetcher > Prometheus
-token_. If configured, provide it as a `token` query parameter or as a Bearer token:
-
-```text
-https://moodle.example.com/local/pluginsfetcher/prometheus.php?token=XXXXXXXXXXXX
-```
-
-The optional `type` and `contribonly=1` parameters apply the same plugin filters as the web service.
-
-The configured settings also apply to the output here.
 
 ## Reporting a bug or requesting a feature
 
