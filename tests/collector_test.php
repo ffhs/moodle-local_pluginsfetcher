@@ -37,6 +37,10 @@ final class collector_test extends \advanced_testcase {
      * @return void
      */
     public function test_get_plugin_stats(): void {
+        $this->resetAfterTest();
+        set_config('show_plugin_versions', 1, 'local_pluginsfetcher');
+        set_config('excluded_plugins', '', 'local_pluginsfetcher');
+
         // Determine the expected amount of plugins.
         $plugman = \core_plugin_manager::instance();
         $plugins = $plugman->get_plugins();
@@ -74,6 +78,10 @@ final class collector_test extends \advanced_testcase {
      * @return void
      */
     public function test_get_plugin_stats_contrib_only(): void {
+        $this->resetAfterTest();
+        set_config('show_plugin_versions', 1, 'local_pluginsfetcher');
+        set_config('excluded_plugins', '', 'local_pluginsfetcher');
+
         // Call the collector with contribonly set to true.
         $pluginstats = collector::get_plugin_stats(null, true);
 
@@ -93,6 +101,10 @@ final class collector_test extends \advanced_testcase {
      * @return void
      */
     public function test_get_plugin_stats_by_type(string $plugintype): void {
+        $this->resetAfterTest();
+        set_config('show_plugin_versions', 1, 'local_pluginsfetcher');
+        set_config('excluded_plugins', '', 'local_pluginsfetcher');
+
         // Call the collector with a specific type.
         $pluginstats = collector::get_plugin_stats($plugintype);
 
@@ -125,6 +137,8 @@ final class collector_test extends \advanced_testcase {
      * @return void
      */
     public function test_get_software_stats(): void {
+        $this->resetAfterTest();
+
         global $CFG;
 
         // Call the collector.
@@ -138,5 +152,88 @@ final class collector_test extends \advanced_testcase {
         $this->assertSame(phpversion(), $softwarestats['php']['version'], 'PHP version does not match.');
         $this->assertSame($CFG->dbtype, $softwarestats['db']['type'], 'Database type does not match.');
         $this->assertSame(PHP_OS, $softwarestats['os']['name'], 'OS name does not match.');
+    }
+
+    /**
+     * Tests that software statistics can be selected independently.
+     *
+     * @covers \local_pluginsfetcher\collector::get_software_stats
+     */
+    public function test_get_software_stats_options(): void {
+        global $CFG;
+
+        $this->resetAfterTest();
+        set_config('show_moodle_version', 0, 'local_pluginsfetcher');
+        set_config('show_moodle_release', 1, 'local_pluginsfetcher');
+        set_config('show_moodle_branch', 0, 'local_pluginsfetcher');
+        set_config('show_php_version', 0, 'local_pluginsfetcher');
+        set_config('show_database_system', 1, 'local_pluginsfetcher');
+        set_config('show_os_system', 0, 'local_pluginsfetcher');
+
+        $softwarestats = collector::get_software_stats();
+
+        $this->assertSame(['release' => $CFG->release], $softwarestats['moodle']);
+        $this->assertArrayNotHasKey('php', $softwarestats);
+        $this->assertSame(['type' => $CFG->dbtype], $softwarestats['db']);
+        $this->assertArrayNotHasKey('os', $softwarestats);
+    }
+
+    /**
+     * Tests that plugin version-related fields can be disabled.
+     *
+     * @covers \local_pluginsfetcher\collector::get_plugin_stats
+     */
+    public function test_get_plugin_stats_without_versions(): void {
+        $this->resetAfterTest();
+        set_config('show_plugin_versions', 0, 'local_pluginsfetcher');
+        set_config('excluded_plugins', '', 'local_pluginsfetcher');
+
+        $pluginstats = collector::get_plugin_stats('local');
+        $plugin = reset($pluginstats['plugins']);
+
+        foreach (['version', 'release', 'requires', 'supported', 'status'] as $key) {
+            $this->assertArrayNotHasKey($key, $plugin);
+        }
+    }
+
+    /**
+     * Tests that software statistics can all be disabled.
+     *
+     * @covers \local_pluginsfetcher\collector::get_software_stats
+     */
+    public function test_get_software_stats_disabled(): void {
+        $this->resetAfterTest();
+        foreach (
+            [
+            'show_moodle_version',
+            'show_moodle_release',
+            'show_moodle_branch',
+            'show_php_version',
+            'show_database_system',
+            'show_os_system',
+            ] as $option
+        ) {
+            set_config($option, 0, 'local_pluginsfetcher');
+        }
+
+        $this->assertSame([], collector::get_software_stats());
+    }
+
+    /**
+     * Tests that plugin exclusion patterns are matched line by line.
+     *
+     * @covers \local_pluginsfetcher\collector::get_plugin_stats
+     */
+    public function test_get_plugin_stats_excluded_plugins(): void {
+        $this->resetAfterTest();
+        set_config('show_plugin_versions', 1, 'local_pluginsfetcher');
+        set_config('excluded_plugins', "local_pluginsfetcher\nmod_*", 'local_pluginsfetcher');
+
+        $pluginstats = collector::get_plugin_stats();
+
+        $this->assertArrayNotHasKey('local_pluginsfetcher', $pluginstats['plugins']);
+        foreach ($pluginstats['plugins'] as $plugin) {
+            $this->assertNotSame('mod', $plugin['type']);
+        }
     }
 }

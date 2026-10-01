@@ -91,17 +91,23 @@ class get_info extends external_api {
                         'version' => new external_value(
                             PARAM_TEXT,
                             'Version number of the installed plugin (e.g., 2025010100) from the database',
-                            VALUE_REQUIRED
+                            VALUE_OPTIONAL,
+                            null,
+                            NULL_ALLOWED
                         ),
                         'release' => new external_value(
                             PARAM_TEXT,
                             'Release identifier of the plugin (e.g., 3.11.0)',
-                            VALUE_REQUIRED
+                            VALUE_OPTIONAL,
+                            null,
+                            NULL_ALLOWED
                         ),
                         'requires' => new external_value(
                             PARAM_INT,
                             'Moodle version required by the plugin (e.g., 2022112800)',
-                            VALUE_REQUIRED
+                            VALUE_OPTIONAL,
+                            null,
+                            NULL_ALLOWED
                         ),
                         'supported' => new external_multiple_structure(
                             new external_value(
@@ -109,6 +115,8 @@ class get_info extends external_api {
                                 'Supported Moodle versions (e.g., 401, 500)',
                                 VALUE_REQUIRED
                             ),
+                            '',
+                            VALUE_OPTIONAL,
                         ),
                         'isstandard' => new external_value(
                             PARAM_BOOL,
@@ -118,7 +126,9 @@ class get_info extends external_api {
                         'status' => new external_value(
                             PARAM_TEXT,
                             'Status of the plugin. One of core_plugin_manager::PLUGIN_STATUS_*',
-                            VALUE_REQUIRED
+                            VALUE_OPTIONAL,
+                            null,
+                            NULL_ALLOWED
                         ),
                     ]
                 ),
@@ -151,19 +161,21 @@ class get_info extends external_api {
                             'version' => new external_value(
                                 PARAM_TEXT,
                                 'Moodle version number (e.g., 2022112800)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
                             'release' => new external_value(
                                 PARAM_TEXT,
                                 'Moodle release identifier (e.g., 4.1)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
                             'branch' => new external_value(
                                 PARAM_INT,
                                 'Moodle branch number (e.g., 401 for 4.1)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                     'php' => new external_single_structure(
                         [
@@ -177,34 +189,40 @@ class get_info extends external_api {
                                 'PHP release identifier (e.g., 80100)',
                                 VALUE_REQUIRED
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                     'db' => new external_single_structure(
                         [
                             'type' => new external_value(
                                 PARAM_TEXT,
                                 'Database type used by Moodle (e.g., mysql, pgsql)',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                     'os' => new external_single_structure(
                         [
                             'name' => new external_value(
                                 PARAM_TEXT,
                                 'Operating system name',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
                             'family' => new external_value(
                                 PARAM_TEXT,
                                 'Operating system family',
-                                VALUE_REQUIRED
+                                VALUE_OPTIONAL
                             ),
-                        ]
+                        ],
+                        '',
+                        VALUE_OPTIONAL
                     ),
                 ],
                 'Info about installed software',
-                VALUE_REQUIRED
+                VALUE_OPTIONAL
             ),
         ]);
     }
@@ -236,8 +254,12 @@ class get_info extends external_api {
         $res = [
             'plugins' => $pluginstats['plugins'],
             'pluginstats' => $pluginstats['stats'],
-            'software' => \local_pluginsfetcher\collector::get_software_stats(),
         ];
+
+        $softwarestats = \local_pluginsfetcher\collector::get_software_stats();
+        if ($softwarestats !== []) {
+            $res['software'] = $softwarestats;
+        }
 
         return $res;
     }

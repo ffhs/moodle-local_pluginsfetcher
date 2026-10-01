@@ -93,6 +93,8 @@ final class get_info_test extends \advanced_testcase {
         // Gain webservice permission.
         $this->resetAfterTest();
         $this->setAdminUser();
+        set_config('show_plugin_versions', 1, 'local_pluginsfetcher');
+        set_config('excluded_plugins', '', 'local_pluginsfetcher');
 
         // Call the webservice function.
         $result = get_info::execute(null, false);

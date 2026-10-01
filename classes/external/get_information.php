@@ -74,8 +74,8 @@ class get_information extends external_api {
             new external_single_structure([
                 'type' => new external_value(PARAM_TEXT, 'The type'),
                 'name' => new external_value(PARAM_TEXT, 'The name'),
-                'versiondb' => new external_value(PARAM_TEXT, 'The installed version'),
-                'release' => new external_value(PARAM_TEXT, 'The installed release'),
+                'versiondb' => new external_value(PARAM_TEXT, 'The installed version', VALUE_OPTIONAL, null, NULL_ALLOWED),
+                'release' => new external_value(PARAM_TEXT, 'The installed release', VALUE_OPTIONAL, null, NULL_ALLOWED),
             ]),
             'plugins'
         );
@@ -110,8 +110,8 @@ class get_information extends external_api {
             fn($plugin) => [
                 'type' => $plugin['type'],
                 'name' => $plugin['name'],
-                'versiondb' => $plugin['version'],
-                'release' => $plugin['release'],
+                'versiondb' => $plugin['version'] ?? null,
+                'release' => $plugin['release'] ?? null,
             ],
             $pluginstats['plugins']
         );
