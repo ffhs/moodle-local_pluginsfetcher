@@ -139,7 +139,7 @@ jobs:
       - name: PHPUnit tests
         if: ${{ !cancelled() }}
         run: |
-          moodle-plugin-ci phpunit --fail-on-warning --coverage-text --coverage-clover
+          moodle-plugin-ci phpunit --fail-on-warning
 
       - name: Behat features
         if: ${{ !cancelled() }}
@@ -153,14 +153,6 @@ jobs:
           path: ${{ github.workspace }}/moodledata/behat_dump
           retention-days: 7
           if-no-files-found: ignore
-
-      - name: Process coverage data via Coveralls
-        if: ${{ !cancelled() && matrix.moodle-branch == 'MOODLE_405_STABLE' && matrix.php == '8.3' && matrix.database == 'pgsql' }}
-        uses: coverallsapp/github-action@v2
-        with:
-          format: clover
-          file: coverage.xml
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Mark cancelled jobs as failed.
         if: ${{ cancelled() }}
