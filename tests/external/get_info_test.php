@@ -24,13 +24,28 @@
 
 namespace local_pluginsfetcher\external;
 
-
 /**
  * Tests for the get_info external service
  */
 final class get_info_test extends \advanced_testcase {
     /**
-     * Test that users without the required capabilities are rejected
+     * Test that login is required.
+     *
+     * @covers \local_pluginsfetcher\external\get_info::execute
+     *
+     * @return void
+     * @throws \dml_exception
+     * @throws \invalid_parameter_exception
+     * @throws \required_capability_exception
+     */
+    public function test_login_required(): void {
+        $this->resetAfterTest();
+        $this->expectException(\require_login_exception::class);
+        get_info::execute(null, false);
+    }
+
+    /**
+     * Test that users without the required capabilities are rejected.
      *
      * @covers \local_pluginsfetcher\external\get_info::execute
      *
@@ -42,6 +57,8 @@ final class get_info_test extends \advanced_testcase {
     public function test_capability_requirement(): void {
         // Create job.
         $this->resetAfterTest();
+
+        $this->setGuestUser();
 
         // Check that a user without the required capability is rejected.
         $this->expectException(\required_capability_exception::class);
