@@ -247,6 +247,7 @@ class get_info extends external_api {
 
         // Check for capabilities.
         $context = \context_system::instance();
+        self::validate_context($context);
         require_capability('moodle/site:config', $context);
 
         // Build response.
