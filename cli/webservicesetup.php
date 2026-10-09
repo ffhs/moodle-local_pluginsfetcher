@@ -49,6 +49,16 @@ if (stripos($enabledprotocols, 'rest') === false) {
     set_config('webserviceprotocols', $enabledprotocols . ',rest');
 }
 
+// Enable webservice authentication.
+$authsplugins = get_enabled_auth_plugins();
+if (!in_array('webservice', $authsplugins)) {
+    $authsplugins[] = 'webservice';
+    set_config('auth', implode(',', $authsplugins));
+    cli_writeln('Webservice authentication plugin enabled.');
+} else {
+    cli_writeln('Webservice authentication plugin is already enabled, skipping.');
+}
+
 // Create a webservice user.
 $wsusername = 'ws-' . $wsname . '-user';
 $existinguser = $DB->get_record('user', ['username' => $wsusername, 'deleted' => 0]);
