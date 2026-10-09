@@ -30,6 +30,9 @@ defined('MOODLE_INTERNAL') || die(); // @codeCoverageIgnore
 // General.
 $string['pluginname'] = 'Pluginsfetcher';
 
+// Capabilities.
+$string['pluginsfetcher:view'] = 'Plugininformationen anzeigen';
+
 // Privacy.
 $string['privacy:metadata'] = 'Der Pluginsfetcher speichert keine personenbezogenen Daten. Er stellt lediglich Informationen bereit, die in anderen Teilen des Systems gespeichert sind.';
 

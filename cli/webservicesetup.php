@@ -33,7 +33,7 @@ require_once($CFG->dirroot . '/webservice/lib.php');
 // Set the variables for the new webservice.
 $wsname = 'pluginsfetcher';
 $additionalcapabilities = [
-    'moodle/site:config',
+    'local/pluginsfetcher:view',
 ];
 
 // Set system context.

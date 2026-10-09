@@ -34,7 +34,7 @@ $functions = [
         'type' => 'read',
         'ajax' => true,
         'services' => [],
-        'capabilities' => 'moodle/site:config',
+        'capabilities' => 'local/pluginsfetcher:view',
     ],
 
     'local_pluginsfetcher_get_information' => [
@@ -43,7 +43,7 @@ $functions = [
         'type' => 'read',
         'ajax' => true,
         'services' => [],
-        'capabilities' => 'moodle/site:config',
+        'capabilities' => 'local/pluginsfetcher:view',
     ],
 ];
 

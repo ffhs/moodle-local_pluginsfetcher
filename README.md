@@ -69,7 +69,7 @@ To start using the plugin, you need to:
 > - Create a webservice user
 > - Create a webservice role with the necessary capabilities.
 > - Assign the webservice user to the webservice role in system context.
-> - Authorise the user to use the webservice.
+> - Authorize the user to use the webservice.
 > - Create a token for the user - the token is printed out, MAKE SURE TO COPY THE TOKEN BECAUSE IT WILL NEVER BE SHOWN AGAIN!
 > ```
 > php local/pluginsfetcher/cli/webservicesetup.php

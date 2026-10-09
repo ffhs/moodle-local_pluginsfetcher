@@ -29,6 +29,8 @@
  * @return bool
  */
 function xmldb_local_pluginsfetcher_upgrade($oldversion) {
+    global $DB;
+
     if ($oldversion < 2026061701) {
         $defaults = [
             'show_plugin_versions' => 1,
@@ -48,6 +50,28 @@ function xmldb_local_pluginsfetcher_upgrade($oldversion) {
         }
 
         upgrade_plugin_savepoint(true, 2026061701, 'local', 'pluginsfetcher');
+    }
+
+    if ($oldversion < 2026100901) {
+        upgrade_plugin_savepoint(true, 2026100901, 'local', 'pluginsfetcher');
+    }
+
+    if ($oldversion < 2026100904) {
+        // Assign the dedicated capability to the webservice role.
+        $cap = 'local/pluginsfetcher:view';
+        if ($DB->record_exists('capabilities', ['name' => $cap])) {
+            $roles = $DB->get_records_select(
+                'role',
+                $DB->sql_like('shortname', ':shortname'),
+                ['shortname' => '%pluginsfetcher%']
+            );
+            $systemcontext = context_system::instance();
+            foreach ($roles as $role) {
+                assign_capability($cap, CAP_ALLOW, $role->id, $systemcontext->id, true);
+            }
+        }
+
+        upgrade_plugin_savepoint(true, 2026100904, 'local', 'pluginsfetcher');
     }
 
     return true;

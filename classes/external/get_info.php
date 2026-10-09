@@ -30,6 +30,7 @@ defined('MOODLE_INTERNAL') || die(); // @codeCoverageIgnore
 // TODO (MDL-0): Remove after deprecation of Moodle 4.1 (LTS) on 08-12-2025.
 require_once($CFG->dirroot . '/local/pluginsfetcher/patch_401_class_renames.php'); // @codeCoverageIgnore
 
+use core\exception\required_capability_exception;
 use core_external\external_api;
 use core_external\external_description;
 use core_external\external_function_parameters;
@@ -248,7 +249,18 @@ class get_info extends external_api {
         // Check for capabilities.
         $context = \context_system::instance();
         self::validate_context($context);
-        require_capability('moodle/site:config', $context);
+        if (
+            !has_capability('local/pluginsfetcher:view', $context)
+            // Backwards compatibility.
+            && !has_capability('moodle/site:config', $context)
+        ) {
+            throw new required_capability_exception(
+                $context,
+                'local/pluginsfetcher:view',
+                'nopermissions',
+                ''
+            );
+        }
 
         // Build response.
         $pluginstats = \local_pluginsfetcher\collector::get_plugin_stats($params['type'], $params['contribonly']);
