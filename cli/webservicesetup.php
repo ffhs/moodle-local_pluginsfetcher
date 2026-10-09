@@ -66,7 +66,7 @@ if ($existinguser) {
     $webserviceuserid = $existinguser->id;
     cli_writeln('Webservice user "' . $wsusername . '" already exists (id=' . $webserviceuserid . '), skipping creation.');
 } else {
-    $webserviceuserid = user_create_user([
+    $newuser = [
         'username' => 'ws-' . $wsname . '-user',
         'firstname' => 'Webservice',
         'lastname' => 'User (' . $wsname . ')',
@@ -74,7 +74,12 @@ if ($existinguser) {
         'auth' => 'webservice',
         'confirmed' => 1,
         'mnethostid' => $CFG->mnet_localhost_id,
-    ]);
+    ];
+    if ($CFG->branch < 503) {
+        $webserviceuserid = user_create_user($newuser);
+    } else {
+        $webserviceuserid = \core\user::create_user((object) $newuser);
+    }
     cli_writeln('Webservice user "' . $wsusername . '" created (id=' . $webserviceuserid . ').');
 }
 
@@ -128,7 +133,11 @@ $existingtoken = $DB->get_record('external_tokens', [
 if ($existingtoken) {
     cli_writeln('Token for ' . $wsname . ' already exists, skipping creation.');
 } else {
-    $token = external_generate_token(EXTERNAL_TOKEN_PERMANENT, $service->id, $webserviceuserid, $systemcontext);
+    if ($CFG->branch < 404) {
+        $token = external_generate_token(EXTERNAL_TOKEN_PERMANENT, $service->id, $webserviceuserid, $systemcontext);
+    } else {
+        $token = \core_external\util::generate_token(EXTERNAL_TOKEN_PERMANENT, $service, $webserviceuserid, $systemcontext);
+    }
     cli_writeln('Token for ' . $wsname . ' created: ' . $token .
         ' - MAKE SURE TO COPY THE TOKEN BECAUSE IT WILL NEVER BE SHOWN AGAIN!' . "\n");
 }
