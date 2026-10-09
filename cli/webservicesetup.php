@@ -44,9 +44,11 @@ $USER = get_admin();
 
 // Enable webservices and REST protocol.
 set_config('enablewebservices', true);
-$enabledprotocols = get_config('core', 'webserviceprotocols');
-if (stripos($enabledprotocols, 'rest') === false) {
-    set_config('webserviceprotocols', $enabledprotocols . ',rest');
+$protocols = array_filter(explode(',', (string) get_config('core', 'webserviceprotocols')));
+if (!in_array('rest', $protocols, true)) {
+    $protocols[] = 'rest';
+    set_config('webserviceprotocols', implode(',', $protocols));
+    cli_writeln('REST protocol enabled.');
 }
 
 // Enable webservice authentication.
