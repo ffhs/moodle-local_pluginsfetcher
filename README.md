@@ -2,9 +2,8 @@
 
 [![Latest Version](https://img.shields.io/github/v/release/ffhs/moodle-local_pluginsfetcher)](https://github.com/ffhs/moodle-local_pluginsfetcher/releases)
 [![PHP Support](https://img.shields.io/badge/PHP-8.1%20--%208.4-blue)](https://github.com/ffhs/moodle-local_pluginsfetcher)
-[![Moodle Support](https://img.shields.io/badge/Moodle-4.5%20--%205.2-orange)](https://github.com/ffhs/moodle-local_pluginsfetcher)
+[![Moodle Support](https://img.shields.io/badge/Moodle-4.5%20--%205.3-orange)](https://github.com/ffhs/moodle-local_pluginsfetcher)
 [![GitHub Workflow Status: Moodle Plugin CI](https://img.shields.io/github/actions/workflow/status/ffhs/moodle-local_pluginsfetcher/moodle-plugin-ci.yml?label=Moodle%20Plugin%20CI)](https://github.com/ffhs/moodle-local_pluginsfetcher/actions/workflows/moodle-plugin-ci.yml)
-[![Code Coverage](https://img.shields.io/coverallsCoverage/github/ffhs/moodle-local_pluginsfetcher)](https://coveralls.io/github/ffhs/moodle-local_pluginsfetcher)
 [![GitHub Issues](https://img.shields.io/github/issues/ffhs/moodle-local_pluginsfetcher)](https://github.com/ffhs/moodle-local_pluginsfetcher/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/ffhs/moodle-local_pluginsfetcher)](https://github.com/ffhs/moodle-local_pluginsfetcher/pulls)
 [![Maintenance Status](https://img.shields.io/maintenance/yes/9999)](https://github.com/ffhs/moodle-local_pluginsfetcher/)

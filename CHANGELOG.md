@@ -1,5 +1,20 @@
 # Changelog
 
+## Version v5.3-r1 (2026100900)
+
+### Added
+- Add admin settings to exclude sensitive information
+- Add support for Moodle 5.3
+
+### Changed
+- Add context validation in external api
+- Make cli webservice setup idempotent
+- Enable webservice authentication plugin in webservice setup script
+- Update Moodle Plugin CI for Moodle 5.3
+
+### Fixed
+- Fix missing user lib in webservice setup script
+
 ## Version v5.2-r1 (2026061700)
 
 ### Added
